@@ -17,7 +17,6 @@
     "nichoshop.ui": "file:",
     "primeicons": "^7.0.0",
     "primevue": "^4.2.2",
-    "vfm": "file:",
     "vue": "^3.5.12",
     "vue-final-modal": "^4.5.5",
     "vue-i18n": "^10.0.5",
