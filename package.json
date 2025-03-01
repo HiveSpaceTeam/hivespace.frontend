@@ -1,5 +1,5 @@
 {
-  "name": "nichoshop.ui",
+  "name": "hivespace.frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,7 +14,6 @@
     "@vorms/core": "^1.1.0",
     "axios": "^1.7.9",
     "lodash": "^4.17.21",
-    "nichoshop.ui": "file:",
     "primeicons": "^7.0.0",
     "primevue": "^4.2.2",
     "vue": "^3.5.12",
