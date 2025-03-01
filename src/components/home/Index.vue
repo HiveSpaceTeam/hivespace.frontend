@@ -9,7 +9,7 @@
           class="category-item"
         >
           <img
-            :src="`https://nichoshopstorage.blob.core.windows.net/categoryimage/${category.fileImageId}`"
+            :src="`https://hivespacestorage.blob.core.windows.net/categoryimage/${category.fileImageId}`"
             :alt="category.displayName"
             class="category-image"
           />
