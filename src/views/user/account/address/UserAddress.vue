@@ -99,12 +99,18 @@ export default {
     const setAsDefault = ({ id }) => {
       proxy.$store.dispatch(`${module}/setAsDefault`, id);
     };
+
+    const loadDataGrid = () => {
+      proxy.$store.dispatch(`${module}/getAll`);
+    };
+
     return {
       products,
       detailModal,
       module,
       autoLoadGrid,
       setAsDefault,
+      loadDataGrid,
     };
   },
 };
