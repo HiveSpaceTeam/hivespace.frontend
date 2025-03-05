@@ -8,12 +8,15 @@
       </TabList>
       <TabPanels>
         <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value">
-          <order-card v-for="item in items" :order="item" />
-          <div class="text-center">
-            <button @click="loadMore" class="button-primary button m-auto">
-              Load more
-            </button>
+          <div v-if="items.length > 0">
+            <order-card v-for="item in items" :order="item" />
+            <div class="text-center">
+              <button @click="loadMore" class="button-primary button m-auto">
+                Load more
+              </button>
+            </div>
           </div>
+          <div class="list-order-empty" v-else>Chưa có đơn hàng</div>
         </TabPanel>
       </TabPanels>
     </Tabs>
