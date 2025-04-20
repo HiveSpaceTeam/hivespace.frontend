@@ -256,9 +256,9 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, getCurrentInstance, ref } from "vue";
+import { defineComponent, onMounted, getCurrentInstance, ref, nextTick } from "vue";
 import commonFunction from "../common/commonFunction";
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: "ProductDetail",
@@ -268,12 +268,14 @@ export default defineComponent({
     const selectedSKU = ref({});
     const selectProductVariants = ref([]);
     const quantityProduct = ref(1);
+    const route = useRoute();
     const router = useRouter();
     const products_relavant = ref([]);
 
     onMounted(async () => {
       // chi tiết
-      const res = await proxy.$store.dispatch(`moduleProduct/getItem`, 10000000);
+      let productId = route.params.id;
+      const res = await proxy.$store.dispatch(`moduleProduct/getItem`, productId);
       if (res?.data) {
         product.value = res?.data;
         selectProductVariants.value = res?.data.variants?.map((variant) => {
@@ -282,6 +284,7 @@ export default defineComponent({
         setSelectedSKU();
       }
 
+      debugger
       // sản phẩm gợi ý
       const res_relavant = await proxy.$store.dispatch(`moduleProduct/getProductByCategory`, 101178);
       if (res_relavant?.data) {
