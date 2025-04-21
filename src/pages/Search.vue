@@ -728,7 +728,6 @@ export default defineComponent({
         };
 
         onMounted(async () => {
-            debugger
             // data product
             let key = route.params.key;
             const dataProduct = await proxy.$store.dispatch("moduleProduct/getProductSearch", {

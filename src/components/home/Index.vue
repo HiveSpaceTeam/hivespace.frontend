@@ -44,16 +44,21 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      // data category
-      const dataCategory = await proxy.$store.dispatch("moduleCategory/getCategory");
-      categories.value = dataCategory.data;
+      const [dataCategory, dataProduct] = await Promise.all([
+        proxy.$store.dispatch("moduleCategory/getCategory"),
+        proxy.$store.dispatch("moduleProduct/getProductHome", {
+          pageSize: 30,
+          pageIndex: 1
+        })
+      ]);
 
-      // data product
-      const dataProduct = await proxy.$store.dispatch("moduleProduct/getProductHome", {
-        'pageSize': 30,
-        'pageIndex': 1
-      });
-      products.value = dataProduct.data;
+      if (dataCategory?.data) {
+        categories.value = dataCategory.data;
+      }
+
+      if (dataProduct?.data) {
+        products.value = dataProduct.data;
+      }
     });
 
     return {

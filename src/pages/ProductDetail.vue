@@ -284,7 +284,6 @@ export default defineComponent({
         setSelectedSKU();
       }
 
-      debugger
       // sản phẩm gợi ý
       const res_relavant = await proxy.$store.dispatch(`moduleProduct/getProductByCategory`, 101178);
       if (res_relavant?.data) {
