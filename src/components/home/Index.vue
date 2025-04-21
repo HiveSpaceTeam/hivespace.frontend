@@ -3,34 +3,23 @@
     <div class="category-list-container">
       <h2 class="title">DANH MỤC</h2>
       <div class="category-grid">
-        <div
-          v-for="category in categories"
-          :key="category.id"
-          class="category-item"
-        >
-          <img
-            :src="`https://hivespacestorage.blob.core.windows.net/categoryimage/${category.fileImageId}`"
-            :alt="category.displayName"
-            class="category-image"
-          />
+        <div v-for="category in categories" :key="category.id" class="category-item">
+          <img :src="`https://hivespacestorage.blob.core.windows.net/categoryimage/${category.fileImageId}`"
+            :alt="category.displayName" class="category-image" />
           <p class="category-name">{{ category.displayName }}</p>
         </div>
       </div>
     </div>
     <div class="suggestion-container">
-      <h2 class="title">GỢI Ý NGÀY HÔM NAY</h2>
+      <h2 class="title">GỢI Ý HÔM NAY</h2>
       <div class="product-grid">
-        <div
-          v-for="(product, index) in products"
-          :key="index"
-          class="product-item"
-          @click="goToProductDetail"
-        >
-          <img :src="product.image" :alt="product.name" class="product-image" />
+        <div v-for="(product, index) in products" :key="index" class="product-item"
+          @click="goToProductDetail(product.productId)">
+          <img :src="product.productImage" :alt="product.productName" class="product-image" />
           <div class="product-info">
-            <p class="product-name">{{ product.name }}</p>
-            <p class="product-price">₫{{ product.price.toLocaleString() }}</p>
-            <p class="product-sold">Đã bán {{ product.sold }}</p>
+            <p class="product-name">{{ product.productName }}</p>
+            <p class="product-price">₫{{ product.amount.toLocaleString() }}</p>
+            <p class="product-sold">Đã bán 69</p>
           </div>
         </div>
       </div>
@@ -40,7 +29,7 @@
 
 <script>
 import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: "Index",
@@ -48,64 +37,34 @@ export default defineComponent({
     const { proxy } = getCurrentInstance();
     const router = useRouter();
     const categories = ref([]);
-    const products = [
-      {
-        name: "Ghế Công Thái Học Xoay Văn Phòng CTH-27 Có Tựa Đầu Gác Chân Cao Cấp",
-        price: 112500,
-        sold: "193",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lwy239g4rzyx24_tn.webp",
-      },
-      {
-        name: "Sữa Dưỡng Thể OLAY Vitamin C Bright Ultra Whitening Dưỡng Trắng Da Toàn Thân 250ml",
-        price: 9000,
-        sold: "5,8k",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m217ng7d6gv2d0_tn.webp",
-      },
-      {
-        name: "Áo Khoác T1 4 sao màu trắng CKTG 2025",
-        price: 1000,
-        sold: "66,2k",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m0itpettbc7j14_tn.webp",
-      },
-      {
-        name: "[FULL LINE] Reuzel Pomade tạo kiểu tóc [Blue - Pink - Red - Extreme Hold - Green - Matte Clay - Fiber] - Full size",
-        price: 95000,
-        sold: "3,6k",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134201-23030-rfl0jct6ilov22_tn.webp",
-      },
-      {
-        name: "Áo Khoác Ralph Lauren Harrington Chất Vải Cotton Kaki Dày Mịn Form Châu Âu Oversize",
-        price: 2000,
-        sold: "87,4k",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1qzq7l44csf0c_tn.webp",
-      },
-      {
-        name: "Tai Nghe Nhét Tai Kz Edx Pro Edr1 Zas Ed9 Sử Dụng Tiện Lợi Chất Lượng Cao",
-        price: 23590000,
-        sold: "1,5k",
-        image:
-          "https://down-vn.img.susercontent.com/file/6c9df807556b44a6eefc2de8b5c91844_tn.webp",
-      },
-    ];
+    const products = ref([]);
 
-    const goToProductDetail = () => {
-      router.push("/product-detail");
+    const goToProductDetail = (productId) => {
+      router.push({ name: 'productDetail', params: { id: productId } });
     };
 
     onMounted(async () => {
-      const res = await proxy.$store.dispatch("moduleCategory/getCategory");
-      categories.value = await res.data;
+      const [dataCategory, dataProduct] = await Promise.all([
+        proxy.$store.dispatch("moduleCategory/getCategory"),
+        proxy.$store.dispatch("moduleProduct/getProductHome", {
+          pageSize: 30,
+          pageIndex: 1
+        })
+      ]);
+
+      if (dataCategory?.data) {
+        categories.value = dataCategory.data;
+      }
+
+      if (dataProduct?.data) {
+        products.value = dataProduct.data;
+      }
     });
 
     return {
       categories,
       products,
-      goToProductDetail,
+      goToProductDetail
     };
   },
 });
