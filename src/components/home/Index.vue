@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="suggestion-container">
-      <h2 class="title">GỢI Ý NGÀY HÔM NAY</h2>
+      <h2 class="title">GỢI Ý NGÀY HÔM NAY NPTINH</h2>
       <div class="product-grid">
         <div
           v-for="(product, index) in products"
