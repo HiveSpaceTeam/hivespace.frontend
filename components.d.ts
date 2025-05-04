@@ -8,13 +8,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
-    Checkbox: typeof import('primevue/checkbox')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     Divider: typeof import('primevue/divider')['default']
     Form: typeof import('@primevue/forms/form')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     Index: typeof import('./src/components/home/Index.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    Message: typeof import('primevue/message')['default']
     Order: typeof import('./src/components/home/Order.vue')['default']
     Password: typeof import('primevue/password')['default']
     Popover: typeof import('primevue/popover')['default']
@@ -22,7 +22,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./src/components/common/Search.vue')['default']
-    Select: typeof import('primevue/select')['default']
     SvgIcon: typeof import('./src/components/common/SvgIcon.vue')['default']
     Toast: typeof import('primevue/toast')['default']
   }
