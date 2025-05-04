@@ -19,6 +19,7 @@ body {
   display: grid;
   place-items: center;
 }
+.list-order-empty,
 .list-empty {
   width: 100%;
   height: 200px;
@@ -28,6 +29,10 @@ body {
   background-image: url("@/assets/images/empty.png");
   text-align: center;
   padding-top: 200px;
+}
+
+.list-order-empty {
+  background-image: url("@/assets/images/order-empty.png");
 }
 .popover-item:hover {
   color: #40c9a2;

@@ -79,11 +79,7 @@
             </svg>
           </div>
           <div class="search-bar">
-            <input
-              type="text"
-              v-model="searchQuery"
-              placeholder="Tìm kiếm sản phẩm..."
-            />
+            <input type="text" v-model="textSearch" placeholder="Tìm kiếm sản phẩm..." @keyup.enter="search" />
             <button @click="search">
               <svg
                 height="19"
@@ -191,6 +187,7 @@ export default defineComponent({
       "Cardigan Nữ",
       "Ống Nhòm",
     ]);
+    const textSearch = ref('');
 
     const languageLabel = computed(() => {
       switch (locale.value) {
@@ -204,7 +201,7 @@ export default defineComponent({
     });
 
     const search = () => {
-      router.push("/search");
+      router.push({ name: 'search', params: { key: textSearch.value } });
     };
 
     const goToHomePage = () => {
@@ -229,7 +226,6 @@ export default defineComponent({
     };
 
     return {
-      searchQuery,
       suggestions,
       search,
       toggle,
@@ -240,6 +236,7 @@ export default defineComponent({
       popOverLanguage,
       handleChangeLanguage,
       languageLabel,
+      textSearch
     };
   },
 });
