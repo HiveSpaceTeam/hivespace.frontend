@@ -23,5 +23,12 @@ const enumeration = {
         greaterThan: 2,
         lessThan: 3,
     },
+    errorCode: {
+        phoneNumberExisted: 422001,
+        invalidSku: 422002,
+        invalidMoney: 422003,
+        invalidPhoneNumber: 422004,
+        incorrectPassword: 422005
+    }
 };
 export default enumeration;
