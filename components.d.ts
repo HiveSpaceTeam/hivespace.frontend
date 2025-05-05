@@ -30,7 +30,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./src/components/common/Search.vue')['default']
-    Select: typeof import('primevue/select')['default']
     SvgIcon: typeof import('./src/components/common/SvgIcon.vue')['default']
     Tag: typeof import('primevue/tag')['default']
     Toast: typeof import('primevue/toast')['default']
