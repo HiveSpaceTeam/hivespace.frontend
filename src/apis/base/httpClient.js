@@ -19,7 +19,6 @@ const apiCall = async (method, apiURL, payload = null) => {
         });
         return response;
     } catch (error) {
-        debugger
         if (error.response.status == 401) {
             router.push("/login");
         }
