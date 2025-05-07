@@ -285,7 +285,7 @@ export default defineComponent({
       }
 
       // sản phẩm gợi ý
-      const res_relavant = await proxy.$store.dispatch(`moduleProduct/getProductByCategory`, 101178);
+      const res_relavant = await proxy.$store.dispatch(`moduleProduct/getProductByCategory`, product.value?.categories[0]?.categoryId);
       if (res_relavant?.data) {
         products_relavant.value = res_relavant?.data;
       }
