@@ -20,7 +20,7 @@ class CartApi extends BaseApi {
         return httpClient.put(apiURL, payload);
     }
     updateCartItemMultiSelection(payload) {
-        const apiURL = this.getApiURL('items/multi-selection');
+        const apiURL = this.getApiURL('items');
         return httpClient.put(apiURL, payload);
     }
     delete(id, payload) {
