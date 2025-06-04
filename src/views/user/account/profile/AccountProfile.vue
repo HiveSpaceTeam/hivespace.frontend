@@ -159,7 +159,7 @@ export default {
     });
     const loadEditData = true;
     const module = "moduleUser";
-    const editMode = proxy.$nicho.enumeration.editMode.Edit;
+    const editMode = proxy.$hivespace.enumeration.editMode.Edit;
 
     return {
       model,

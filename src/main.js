@@ -9,18 +9,16 @@ import store from "./stores/store";
 import App from "./App.vue";
 import router from "./router";
 import enumeration from "./common/enumeration";
-import MyPreset from '@/presets/MyPreset.js'
-
+import MyPreset from '@/presets/MyPreset.js';
 import "./style.css";
 import "vue-final-modal/style.css";
 import "primeicons/primeicons.css";
 
-
 const app = createApp(App);
 const vfm = createVfm();
-app.config.globalProperties.$nicho = {
+
+app.config.globalProperties.$hivespace = {
   enumeration: enumeration,
-  // commonFn: commonFn,
 };
 
 app.use(PrimeVue, {
@@ -29,8 +27,7 @@ app.use(PrimeVue, {
   },
 });
 
-
-app.use(i18n)
+app.use(i18n);
 app.use(ConfirmationService);
 app.use(ToastService);
 app.use(vfm);

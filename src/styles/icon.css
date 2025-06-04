@@ -1,17 +1,17 @@
-.nicho-icon {
+.hivespace-icon {
   width: 18px;
   height: 18px;
   background-size: cover;
 }
-.nicho-svg-icon {
+.hivespace-svg-icon {
   width: 12px;
   height: 12px;
   fill: currentColor;
   display: inline-block;
 }
-.nicho-purchase {
+.hivespace-purchase {
   background-image: url(@/assets/icons/purchase-icon.png);
 }
-.nicho-user {
+.hivespace-user {
   background-image: url(@/assets/icons/user-icon.png);
 }
