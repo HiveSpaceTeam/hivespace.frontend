@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div class="card nicho-container">
+  <div class="card hivespace-container">
     <div v-if="items.length > 0">
       <DataTable v-model:selection="selectedProducts" :value="items" rowGroupMode="subheader"
         groupRowsBy="representative.name" sortMode="single" sortField="representative.name" :sortOrder="1">
@@ -226,7 +226,7 @@ export default {
 };
 </script>
 <style scoped>
-.card.nicho-container {
+.card.hivespace-container {
   color: black;
 }
 

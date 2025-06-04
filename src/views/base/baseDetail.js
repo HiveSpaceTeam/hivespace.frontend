@@ -13,7 +13,7 @@ export default defineComponent({
     };
   },
   async created() {
-    if (this.editMode === this.$nicho.enumeration.editMode.Edit && this.$attrs.record) {
+    if (this.editMode === this.$hivespace.enumeration.editMode.Edit && this.$attrs.record) {
       this.model = this.$attrs.record;
     }
     if (this.loadEditData) {
@@ -52,10 +52,10 @@ export default defineComponent({
       param = this.customParam(param);
       let res = null;
       switch (this.editMode) {
-        case this.$nicho.enumeration.editMode.Add:
+        case this.$hivespace.enumeration.editMode.Add:
           res = await this.$store.dispatch(`${this.module}/createItem`, param);
           break;
-        case this.$nicho.enumeration.editMode.Edit:
+        case this.$hivespace.enumeration.editMode.Edit:
           res = await this.$store.dispatch(`${this.module}/updateItem`, param);
           break;
       }

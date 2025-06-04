@@ -50,7 +50,7 @@ export default defineComponent({
         component: this.detailModal,
         attrs: {
           popupTitle: `Sửa ${this.$store.state[this.module].config?.name}`,
-          editMode: this.$nicho.enumeration.editMode.Edit,
+          editMode: this.$hivespace.enumeration.editMode.Edit,
           record: _.cloneDeep(record),
           close: () => close()
         },
@@ -62,7 +62,7 @@ export default defineComponent({
         component: this.detailModal,
         attrs: {
           popupTitle: `Thêm ${this.$store.state[this.module].config?.name}`,
-          editMode: this.$nicho.enumeration.editMode.Add,
+          editMode: this.$hivespace.enumeration.editMode.Add,
           close: () => close()
         },
       });

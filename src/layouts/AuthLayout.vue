@@ -2,7 +2,7 @@
   <div class="h-screen flex flex-col justify-between">
     <div class="flex flex-col items-center">
       <div
-        class="p-2 flex items-center justify-start nicho-container auth-header"
+        class="p-2 flex items-center justify-start hivespace-container auth-header"
       >
         <div class="logo">
           <svg
@@ -29,7 +29,7 @@
     </div>
     <div class="w-full p-[8px] border-t-2 text-center">
       <span class="text-[#6C757D]">
-        Copyright 2017 NichoShop Inc. All rights reserved.
+        Copyright 2017 HiveSpace Inc. All rights reserved.
         <span class="text-[#0B80CC]">User agreement, Privacy</span>
         and
         <span class="text-[#0B80CC]">Cookies.</span>
