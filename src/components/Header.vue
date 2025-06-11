@@ -13,55 +13,98 @@
           <span>{{ $t("i18nHeader.Connect") }}</span>
         </div>
         <div class="right">
-          <span>{{ $t("i18nHeader.Notification") }}</span>
+          <span class="cursor-pointer">{{ $t("i18nHeader.Notification") }}</span>
           <div class="line"></div>
-          <span>{{ $t("i18nHeader.Support") }}</span>
+          <span class="cursor-pointer">{{ $t("i18nHeader.Support") }}</span>
           <div class="line"></div>
-          <div>
+          <div class="cursor-pointer">
             <span @click="toggleLanguage"> {{ languageLabel }} </span>
             <Popover ref="popOverLanguage">
-              <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-4 cursor-pointer">
                 <div @click="handleChangeLanguage('vi')">Tiếng Việt</div>
                 <div @click="handleChangeLanguage('en')">English</div>
               </div>
             </Popover>
           </div>
           <div class="line"></div>
-          <span v-if="!authHelper.isAuthenticated()">{{
-            $t("i18nHeader.SignUp")
-          }}</span>
-          <div v-if="!authHelper.isAuthenticated()" class="line"></div>
-          <RouterLink v-if="!authHelper.isAuthenticated()" to="/login">{{
-            $t("i18nHeader.SignIn")
-          }}</RouterLink>
-          <div
-            class="cursor-pointer"
-            v-if="authHelper.isAuthenticated()"
-            @click="toggle"
-          >
-            {{ authHelper.getContext()?.username }}
-          </div>
-          <Popover ref="popOver">
-            <div class="flex flex-col gap-4">
-              <div>
-                <RouterLink
-                  to="/user/account/profile"
-                  class="font-medium block mb-2 popover-item"
-                >
-                  {{ $t("i18nHeader.MyAccount") }}
-                </RouterLink>
-                <RouterLink
-                  to="/user/purchase"
-                  class="font-medium block mb-2 popover-item"
-                >
-                  {{ $t("i18nHeader.MyPurchase") }}
-                </RouterLink>
-                <RouterLink class="font-medium block popover-item" to="/logout"
-                  >  {{ $t("i18nHeader.Logout") }}</RouterLink
-                >
-              </div>
+          <!-- Feature flag logic for auth -->
+          <template v-if="enableOauth">
+            <span v-if="!user" class="cursor-pointer">
+              {{ $t("i18nHeader.SignUp") }}
+            </span>
+            <div v-if="!user" class="line"></div>
+            <div v-if="!user" class="cursor-pointer" @click="login">
+              {{ $t("i18nHeader.SignIn")}}
             </div>
-          </Popover>
+            <div
+              class="cursor-pointer"
+              v-if="user"
+              @click="toggle"
+            >
+              {{ user.profile?.name || '' }}
+            </div>
+            <Popover ref="popOver">
+              <div class="flex flex-col gap-4 cursor-pointer">
+                <div>
+                  <RouterLink
+                    to="/user/account/profile"
+                    class="font-medium block mb-2 popover-item"
+                  >
+                    {{ $t("i18nHeader.MyAccount") }}
+                  </RouterLink>
+                  <RouterLink
+                    to="/user/purchase"
+                    class="font-medium block mb-2 popover-item"
+                  >
+                    {{ $t("i18nHeader.MyPurchase") }}
+                  </RouterLink>
+                  <div 
+                    class="font-medium block popover-item"  
+                    @click="logout"
+                  >
+                    {{ $t("i18nHeader.Logout") }}
+                  </div>
+                </div>
+              </div>
+            </Popover>
+          </template>
+          <template v-else>
+            <span v-if="!authHelper.isAuthenticated()">
+              {{ $t("i18nHeader.SignUp") }}
+            </span>
+            <div v-if="!authHelper.isAuthenticated()" class="line"></div>
+            <RouterLink v-if="!authHelper.isAuthenticated()" to="/login">
+              {{ $t("i18nHeader.SignIn") }}
+            </RouterLink>
+            <div
+              class="cursor-pointer"
+              v-if="authHelper.isAuthenticated()"
+              @click="toggle"
+            >
+              {{ authHelper.getContext()?.username }}
+            </div>
+            <Popover ref="popOver">
+              <div class="flex flex-col gap-4 cursor-pointer">
+                <div>
+                  <RouterLink
+                    to="/user/account/profile"
+                    class="font-medium block mb-2 popover-item"
+                  >
+                    {{ $t("i18nHeader.MyAccount") }}
+                  </RouterLink>
+                  <RouterLink
+                    to="/user/purchase"
+                    class="font-medium block mb-2 popover-item"
+                  >
+                    {{ $t("i18nHeader.MyPurchase") }}
+                  </RouterLink>
+                  <RouterLink class="font-medium block popover-item" to="/logout">
+                    {{ $t("i18nHeader.Logout") }}
+                  </RouterLink>
+                </div>
+              </div>
+            </Popover>
+          </template>
         </div>
       </div>
       <div v-if="!isCheckOut" class="header-bottom">
@@ -159,10 +202,13 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import authHelper from "@/helpers/authHelper";
 import { useI18n } from "vue-i18n";
+import userManager from "../auth/user-manager";
+import appConfig from "@/config/appConfig";
+
 export default defineComponent({
   name: "Header",
   props: {
@@ -174,9 +220,9 @@ export default defineComponent({
   setup() {
     const { locale } = useI18n();
     const router = useRouter();
+    const user  = ref(null);
     const popOver = ref(null);
     const popOverLanguage = ref(null);
-    const searchQuery = ref("");
     const suggestions = ref([
       "Chặn Cửa",
       "iPhone 15 Pro Max Giá Rẻ 1k",
@@ -188,6 +234,7 @@ export default defineComponent({
       "Ống Nhòm",
     ]);
     const textSearch = ref('');
+    const enableOauth = appConfig.enableOauth;
 
     const languageLabel = computed(() => {
       switch (locale.value) {
@@ -197,6 +244,12 @@ export default defineComponent({
           return "English";
         default:
           return "Tiếng Việt";
+      }
+    });
+
+    onMounted(async () => {
+      if (enableOauth) {
+        user.value = await userManager.getUser();
       }
     });
 
@@ -225,6 +278,27 @@ export default defineComponent({
       locale.value = value;
     };
 
+    const logout = async () => {
+      if (enableOauth) {
+        await userManager.signoutRedirect();
+        await userManager.removeUser();
+        localStorage.removeItem("vuex");
+        router.push("/");
+      } else {
+        // For non-OAuth, just clear local storage and redirect
+        localStorage.removeItem("vuex");
+        router.push("/logout");
+      }
+    };
+
+    const login = async () => {
+      if (enableOauth) {
+        await userManager.signinRedirect();
+      } else {
+        router.push("/login");
+      }
+    };
+
     return {
       suggestions,
       search,
@@ -236,7 +310,11 @@ export default defineComponent({
       popOverLanguage,
       handleChangeLanguage,
       languageLabel,
-      textSearch
+      textSearch,
+      user,
+      logout,
+      login,
+      enableOauth
     };
   },
 });

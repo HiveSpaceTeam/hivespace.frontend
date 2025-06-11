@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import routerPage from "./routerPage";
-import authHelper from "../helpers/authHelper";
 import routerUser from "./routerUser";
+import userManager from "@/auth/user-manager";
+import { oAuthSignin } from "@/auth/oauth-helper";
+import authHelper from "../helpers/authHelper";
+import appConfig from "@/config/appConfig";
 
 const routes = [
   {
@@ -53,16 +56,28 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 router.beforeEach(async (to, from, next) => {
   if (to.meta.anonymous) {
     next();
     return;
   }
-  if (!authHelper.isAuthenticated()) {
-    next({ path: "/login" });
-    return;
+
+  const enableOauth = appConfig.enableOauth;
+  if (enableOauth) {
+    const user = await userManager.getUser();
+    if (!user) {
+      await oAuthSignin();
+      return;
+    }
+  } else {
+    if (!authHelper.isAuthenticated()) {
+      next({ path: "/login" });
+      return;
+    }
   }
 
   next();
 });
+
 export default router;

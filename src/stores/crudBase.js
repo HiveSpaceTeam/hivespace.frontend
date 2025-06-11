@@ -84,7 +84,7 @@ export default class Crud {
           if (res?.data) {
             store.commit("setItems", store.state.items.map(item => {
               if (item[store.state.config.fieldId] == payload.id) {
-                return payload
+                return payload;
               }
               return item;
             }

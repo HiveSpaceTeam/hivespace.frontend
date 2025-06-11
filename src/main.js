@@ -13,12 +13,14 @@ import MyPreset from '@/presets/MyPreset.js';
 import "./style.css";
 import "vue-final-modal/style.css";
 import "primeicons/primeicons.css";
+import appConfig from './config/appConfig';
 
 const app = createApp(App);
 const vfm = createVfm();
 
 app.config.globalProperties.$hivespace = {
   enumeration: enumeration,
+  appConfig: appConfig,
 };
 
 app.use(PrimeVue, {
