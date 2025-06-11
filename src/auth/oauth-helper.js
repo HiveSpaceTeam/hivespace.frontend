@@ -4,7 +4,7 @@ import store from "@/stores/store";
 const oAuthSignin = async () => {
   store.commit("moduleLoading/setLoading", true, { root: true });
   try {
-    user = await userManager.signinSilent();
+    const user = await userManager.signinSilent();
     console.log("Silent signin successful", user);
   } catch (error) {
     console.warn("Silent signin failed, redirecting to login", error);
