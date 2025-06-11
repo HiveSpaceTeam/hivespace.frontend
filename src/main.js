@@ -19,20 +19,22 @@ const app = createApp(App);
 const vfm = createVfm();
 
 app.config.globalProperties.$hivespace = {
-  enumeration: enumeration,
-  appConfig: appConfig,
-};
 
-app.use(PrimeVue, {
-  theme: {
-    preset: MyPreset,
-  },
-});
+  app.config.globalProperties.$hivespace = {
+    enumeration: enumeration,
+    appConfig: appConfig,
+  };
 
-app.use(i18n);
-app.use(ConfirmationService);
-app.use(ToastService);
-app.use(vfm);
-app.use(store);
-app.use(router);
-app.mount("#app");
+  app.use(PrimeVue, {
+    theme: {
+      preset: MyPreset,
+    },
+  });
+
+  app.use(i18n);
+  app.use(ConfirmationService);
+  app.use(ToastService);
+  app.use(vfm);
+  app.use(store);
+  app.use(router);
+  app.mount("#app");
