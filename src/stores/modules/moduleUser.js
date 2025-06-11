@@ -40,9 +40,9 @@ const actions = {
   async login(store, payload) {
     const res = await api.login(payload);
     if (res?.data?.token) {
-      store.commit("setToken", res?.data?.token)
+      store.commit("setToken", res?.data?.token);
     } if (res?.data?.contextData) {
-      store.commit("setContextData", res?.data?.contextData)
+      store.commit("setContextData", res?.data?.contextData);
     }
 
     return res;
@@ -54,10 +54,10 @@ const actions = {
 const mutations = {
   ...crud.mutations,
   setToken: (state, token) => {
-    state.context.token = token
+    state.context.token = token;
   },
   setContextData: (state, contextData) => {
-    state.context.contextData = contextData
+    state.context.contextData = contextData;
   }
 };
 

@@ -241,7 +241,7 @@ export default {
             </template>
           </div>
           <GoogleMap
-            :api-key="process?.env?.VUE_APP_API_KEY"
+            :api-key="process?.env?.VITE_APP_API_KEY"
             style="width: 100%; height: 300px"
             :center="center"
             :zoom="15"
