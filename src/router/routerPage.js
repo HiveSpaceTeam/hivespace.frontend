@@ -40,4 +40,12 @@ export default [
       anonymous: true,
     },
   },
+  {
+    path: "/callback",
+    name: "Callback",
+    component: () => import("@/pages/Callback.vue"),
+    meta: {
+      anonymous: true,
+    },
+  }
 ];
