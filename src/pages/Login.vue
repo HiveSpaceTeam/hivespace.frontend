@@ -1,31 +1,13 @@
 <template>
   <auth-layout title="Đăng nhập">
     <p class="text-xl py-6 w-full">Đăng nhập</p>
-    <Form
-      v-slot="$form"
-      :resolver="resolver"
-      :initialValues="initialValues"
-      @submit="onFormSubmit"
-      class="flex flex-col gap-2 w-full"
-    >
+    <Form :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="flex flex-col gap-2 w-full">
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-1">
-          <InputText
-            name="email"
-            type="text"
-            placeholder="Tài khoản"
-            v-model="model.PhoneNumber"
-          />
+          <InputText name="email" type="email" placeholder="Email" v-model="model.Email" />
         </div>
 
-        <Password
-          name="password"
-          placeholder="Mật khẩu"
-          :feedback="false"
-          fluid
-          toggleMask
-          v-model="model.Password"
-        />
+        <Password name="password" placeholder="Mật khẩu" :feedback="false" fluid toggleMask v-model="model.Password" />
         <Button type="submit" severity="danger" label="ĐĂNG NHẬP" />
       </div>
       <div class="flex justify-between">
@@ -59,10 +41,7 @@
       </div>
       <div class="flex items-center justify-center mt-[16px]">
         <p class="text-[#81818F]">Chưa có tài khoản?</p>
-        <p
-          class="text-[#ee4d2d] ml-[4px] cursor-pointer"
-          @click="onClickGoToSignupPage"
-        >
+        <p class="text-[#ee4d2d] ml-[4px] cursor-pointer" @click="onClickGoToSignupPage">
           Đăng ký
         </p>
       </div>
@@ -76,7 +55,7 @@ import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
 const model = ref({
-  PhoneNumber: null,
+  Email: null,
   Password: null,
 });
 const router = useRouter();
@@ -87,7 +66,7 @@ onMounted(() => {
 const onFormSubmit = ({ valid }) => {
   proxy.$store
     .dispatch("moduleUser/login", {
-      PhoneNumber: model.value.PhoneNumber,
+      Email: model.value.Email,
       Password: model.value.Password,
     })
     .then((res) => {
@@ -126,16 +105,20 @@ const onClickGoToSignupPage = () => {
   background-repeat: no-repeat;
   margin-right: 8px;
 }
+
 .social-btn .icon.facebook {
   background-position: 5.555555555555555% 62.666666666666664%;
   background-size: 325% 287.5%;
 }
+
 .social-btn .icon.google {
   background-position: 83.92857142857143% 5.154639175257732%;
   background-size: 722.2222222222222% 638.8888888888889%;
 }
+
 .p-divider-horizontal {
   margin: 0;
 }
+
 /* Thêm CSS tùy chỉnh nếu cần */
 </style>
