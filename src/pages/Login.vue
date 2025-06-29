@@ -126,16 +126,20 @@ const onClickGoToSignupPage = () => {
   background-repeat: no-repeat;
   margin-right: 8px;
 }
+
 .social-btn .icon.facebook {
   background-position: 5.555555555555555% 62.666666666666664%;
   background-size: 325% 287.5%;
 }
+
 .social-btn .icon.google {
   background-position: 83.92857142857143% 5.154639175257732%;
   background-size: 722.2222222222222% 638.8888888888889%;
 }
+
 .p-divider-horizontal {
   margin: 0;
 }
+
 /* Thêm CSS tùy chỉnh nếu cần */
 </style>
