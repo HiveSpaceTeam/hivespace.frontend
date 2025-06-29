@@ -5,10 +5,12 @@ import { zodResolver } from "@primevue/forms/resolvers/zod";
 import { GoogleMap, Marker } from "vue3-google-map";
 import baseDetail from "@/views/base/baseDetail.js";
 import { z } from "zod";
+import { useI18n } from "vue-i18n";
 export default {
   extends: baseDetail,
   components: { VueFinalModal, GoogleMap, Marker },
   setup() {
+    const { t } = useI18n();
     const model = ref({
       fullName: null,
       phoneNumber: null,
@@ -26,13 +28,13 @@ export default {
     const resolver = ref(
       zodResolver(
         z.object({
-          fullName: z.string({ required_error: "Không được để trống" }),
-          phoneNumber: z.string({ required_error: "Không được để trống" }),
-          street: z.string({ required_error: "Không được để trống" }),
-          province: z.string({ required_error: "Không được để trống" }),
-          district: z.string({ required_error: "Không được để trống" }),
-          ward: z.string({ required_error: "Không được để trống" }),
-          specificAdress: z.string({ required_error: "Không được để trống" }),
+          fullName: z.string({ required_error: t('i18nUser.requiredField') }),
+          phoneNumber: z.string({ required_error: t('i18nUser.requiredField') }),
+          street: z.string({ required_error: t('i18nUser.requiredField') }),
+          province: z.string({ required_error: t('i18nUser.requiredField') }),
+          district: z.string({ required_error: t('i18nUser.requiredField') }),
+          ward: z.string({ required_error: t('i18nUser.requiredField') }),
+          specificAdress: z.string({ required_error: t('i18nUser.requiredField') }),
         })
       )
     );
@@ -45,14 +47,14 @@ export default {
 
     watch(
       () => [model.value.province, provinces.value],
-      async (newValue, oldValue) => {
+      async (newValue) => {
         onChangeProvince(newValue[0]);
       }
     );
 
     watch(
       () => [model.value.district, districts.value],
-      async (newValue, oldValue) => {
+      async (newValue) => {
         onChangeDistrict(newValue[0]);
       }
     );
@@ -104,7 +106,7 @@ export default {
     content-class="w-[600px] mx-4 p-5 bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-lg space-y-2"
   >
     <template #default="{ close }">
-      <span class="text-xl">{{ $attrs.popupTitle }}</span>
+      <span class="text-xl font-semibold block mb-4">{{ $attrs.popupTitle }}</span>
       <Form
         v-slot="$form"
         :resolver="resolver"
@@ -112,7 +114,7 @@ export default {
         class="flex flex-col gap-4 w-full"
       >
         <div class="flex flex-col gap-4">
-          <div class="grid grid-cols-2 gap-1">
+          <div class="grid grid-cols-2 gap-4">
             <div class="flex flex-col gap-1">
               <FloatLabel variant="on">
                 <InputText
@@ -121,7 +123,7 @@ export default {
                   id="fullName"
                   class="w-full"
                 />
-                <label for="fullName">Họ và tên</label>
+                <label for="fullName">{{ $t('i18nUser.fullName') }}</label>
               </FloatLabel>
               <template v-if="$form.fullName?.invalid">
                 <Message
@@ -135,34 +137,25 @@ export default {
               </template>
             </div>
             <div class="flex flex-col gap-1">
-              <div class="flex flex-col gap-1">
-                <FloatLabel variant="on">
-                  <InputText
-                    name="phoneNumber"
-                    class="w-full"
-                    v-model="model.phoneNumber"
-                    id="phoneNumber"
-                  />
-                  <!-- <InputMask
-                    v-model="model.PhoneNumber"
-                    id="phonenumber"
-                    mask="(99)999 999 999"
-                    fluid
-                  /> -->
-                  <label for="phoneNumber">Số điện thoại</label>
-                </FloatLabel>
-                <Message
-                  v-if="$form.phoneNumber?.invalid"
-                  severity="error"
-                  size="small"
-                  variant="simple"
-                  >{{ $form.phoneNumber.error?.message }}</Message
-                >
-              </div>
+              <FloatLabel variant="on">
+                <InputText
+                  name="phoneNumber"
+                  class="w-full"
+                  v-model="model.phoneNumber"
+                  id="phoneNumber"
+                />
+                <label for="phoneNumber">{{ $t('i18nUser.phoneNumber') }}</label>
+              </FloatLabel>
+              <Message
+                v-if="$form.phoneNumber?.invalid"
+                severity="error"
+                size="small"
+                variant="simple"
+                >{{ $form.phoneNumber.error?.message }}</Message
+              >
             </div>
           </div>
-
-          <div class="grid grid-cols-3 gap-1">
+          <div class="grid grid-cols-3 gap-4">
             <div>
               <Select
                 class="w-full"
@@ -172,7 +165,7 @@ export default {
                 name="province"
                 :options="provinces"
                 optionLabel="fullName"
-                placeholder="Tỉnh/Thành phố"
+                :placeholder="$t('i18nUser.province')"
               />
               <Message
                 v-if="$form.province?.invalid"
@@ -191,7 +184,7 @@ export default {
                 name="district"
                 :options="districts"
                 optionLabel="fullName"
-                placeholder="Quận/huyện"
+                :placeholder="$t('i18nUser.district')"
               />
               <Message
                 v-if="$form.district?.invalid"
@@ -210,7 +203,7 @@ export default {
                 optionValue="fullName"
                 :options="wards"
                 optionLabel="fullName"
-                placeholder="Phường/xã"
+                :placeholder="$t('i18nUser.ward')"
               />
               <Message
                 v-if="$form.ward?.invalid"
@@ -221,13 +214,12 @@ export default {
               >
             </div>
           </div>
-
           <div class="flex flex-col gap-1">
             <InputText
               v-model="model.street"
               name="specificAdress"
               type="text"
-              placeholder="Địa chỉ cụ thể"
+              :placeholder="$t('i18nUser.specificAddress')"
             />
             <template v-if="$form.specificAdress?.invalid">
               <Message
@@ -248,33 +240,35 @@ export default {
           >
             <Marker :options="{ position: center }" />
           </GoogleMap>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 mt-2">
             <Checkbox
               v-model="model.isDefault"
               inputId="staySignedIn"
               name="staySignedIn"
               binary
             />
-            <label for="staySignedIn">Đặt làm địa chỉ mặc định</label>
+            <label for="staySignedIn">{{ $t('i18nUser.setAsDefault') }}</label>
           </div>
         </div>
-        <div class="flex justify-end gap-2">
+        <div class="flex justify-end gap-2 mt-4">
           <Button
             @click="() => close()"
             class="w-[150px]"
             severity="secondary"
-            label="Trở lại"
+            :label="$t('i18nUser.back')"
           />
           <Button
             type="submit"
             class="w-[150px]"
             severity="warn"
-            label="Hoàn thành"
+            :label="$t('i18nUser.complete')"
           />
         </div>
       </Form>
     </template>
-    <!-- <LoginFormVorms @submit="(formData) => emit('submit', formData)" /> -->
   </VueFinalModal>
 </template>
-<style scoped></style>
+
+<style scoped>
+/* Add any custom styles if needed */
+</style>
