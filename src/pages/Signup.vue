@@ -28,7 +28,7 @@
             name="email"
             v-model="model.email"
             type="text"
-            :placeholder="$t('i18nAuth.username')"
+            :placeholder="$t('i18nAuth.email')"
           />
           <Message
             v-if="$form.email?.invalid"
