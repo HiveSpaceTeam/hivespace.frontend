@@ -12,7 +12,7 @@
         <div class="flex flex-col gap-1">
           <InputText
             name="email"
-            type="text"
+            type="email"
             :placeholder="$t('i18nAuth.email')"
             v-model="model.email"
           />

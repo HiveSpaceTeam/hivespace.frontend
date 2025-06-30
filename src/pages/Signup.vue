@@ -27,7 +27,7 @@
           <InputText
             name="email"
             v-model="model.email"
-            type="text"
+            type="email"
             :placeholder="$t('i18nAuth.email')"
           />
           <Message
