@@ -1,14 +1,32 @@
 <template>
-  <auth-layout title="Đăng nhập">
-    <p class="text-xl py-6 w-full">Đăng nhập</p>
-    <Form :resolver="resolver" :initialValues="initialValues" @submit="onFormSubmit" class="flex flex-col gap-2 w-full">
+  <auth-layout :title="$t('i18nAuth.login')">
+    <p class="text-xl py-6 w-full">{{ $t('i18nAuth.login') }}</p>
+    <Form
+      v-slot="$form"
+      :resolver="resolver"
+      :initialValues="initialValues"
+      @submit="onFormSubmit"
+      class="flex flex-col gap-2 w-full"
+    >
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-1">
-          <InputText name="email" type="email" placeholder="Email" v-model="model.Email" />
+          <InputText
+            name="email"
+            type="email"
+            :placeholder="$t('i18nAuth.email')"
+            v-model="model.email"
+          />
         </div>
 
-        <Password name="password" placeholder="Mật khẩu" :feedback="false" fluid toggleMask v-model="model.Password" />
-        <Button type="submit" severity="danger" label="ĐĂNG NHẬP" />
+        <Password
+          name="password"
+          :placeholder="$t('i18nAuth.password')"
+          :feedback="false"
+          fluid
+          toggleMask
+          v-model="model.password"
+        />
+        <Button type="submit" severity="danger" :label="$t('i18nAuth.login').toUpperCase()" />
       </div>
       <div class="flex justify-between">
         <!-- <div class="flex items-center gap-2">
@@ -18,31 +36,34 @@
             name="staySignedIn"
             binary
           />
-          <label for="staySignedIn"> Stay signed in </label>
+          <label for="staySignedIn"> {{ $t('i18nAuth.staySignedIn') }} </label>
         </div> -->
 
         <p class="text-[#0B80CC] ml-[4px] cursor-pointer text-xs">
-          Quên mật khẩu
+          {{ $t('i18nAuth.forgotPassword') }}
         </p>
       </div>
 
       <Divider layout="horizontal" align="center">
-        <span class="text-[#81818F] text-xs">HOẶC</span>
+        <span class="text-[#81818F] text-xs">{{ $t('i18nAuth.or') }}</span>
       </Divider>
       <div class="flex items-center justify-center gap-4">
         <button class="social-btn">
           <div class="icon facebook"></div>
-          Facebook
+          {{ $t('i18nAuth.socialFacebook') }}
         </button>
         <button class="social-btn">
           <div class="icon google"></div>
-          Google
+          {{ $t('i18nAuth.socialGoogle') }}
         </button>
       </div>
       <div class="flex items-center justify-center mt-[16px]">
-        <p class="text-[#81818F]">Chưa có tài khoản?</p>
-        <p class="text-[#ee4d2d] ml-[4px] cursor-pointer" @click="onClickGoToSignupPage">
-          Đăng ký
+        <p class="text-[#81818F]">{{ $t('i18nAuth.noAccount') }}</p>
+        <p
+          class="text-[#ee4d2d] ml-[4px] cursor-pointer"
+          @click="onClickGoToSignupPage"
+        >
+          {{ $t('i18nAuth.signup') }}
         </p>
       </div>
     </Form>
@@ -55,8 +76,8 @@ import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
 const model = ref({
-  Email: null,
-  Password: null,
+  email: null,
+  password: null,
 });
 const router = useRouter();
 const staySignedIn = ref(false);
@@ -66,8 +87,8 @@ onMounted(() => {
 const onFormSubmit = ({ valid }) => {
   proxy.$store
     .dispatch("moduleUser/login", {
-      Email: model.value.Email,
-      Password: model.value.Password,
+      email: model.value.email,
+      password: model.value.password,
     })
     .then((res) => {
       if (res?.data?.token) {

@@ -1,4 +1,17 @@
 export default {
     name: "en",
-    Login: 'Login',
+    login: 'Login',
+    signup: 'Sign up',
+    username: 'Username',
+    email: 'Email',
+    password: 'Password',
+    enterPassword: 'Enter password',
+    createAccount: 'Create account',
+    accountExists: 'Already have an account?',
+    noAccount: "Don't have an account?",
+    forgotPassword: 'Forgot password',
+    or: 'OR',
+    staySignedIn: 'Stay signed in',
+    socialFacebook: 'Facebook',
+    socialGoogle: 'Google',
 };
