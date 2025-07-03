@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@primevue/forms": "^4.2.2",
+    "@primevue/forms": "^4.3.5",
     "@primevue/themes": "^4.2.2",
     "@vorms/core": "^1.1.0",
     "axios": "^1.7.9",
